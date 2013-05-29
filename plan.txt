@@ -21,7 +21,7 @@ v2.0 (alles was danach kommen kann)
 - bilder einfuegen
 - timeslider
 - chat
-- more pens?
+- more pens? do we need more pens???
 
 
 
