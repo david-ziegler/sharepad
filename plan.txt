@@ -1,0 +1,30 @@
+v1.0 (minimale funktionen die wir haben sollten fuers erste veroeffentlichen)
+- tools: pen (verschiedene farben & groessen), eraser, text, hand (zum navigieren)
+- navigation bar: zoom, arrows  (auch per keyboard)
+- link: "create a sharepad"
+- "share": URL, ("view only" or "collaborator")
+- rechts oben: liste mit namen und farben
+
+
+- Echtzeituebertragung (?)
+- (ggf. bei mousehover autor anzeigen)
+- sharepad hat unendliche ausdehnungen wie prezzi (scheinbar; so weit wie die koordinaten gespeichert werden koennen)
+
+keine anderen seiten, keine accounts, pure einfachheit :)
+
+
+
+
+v2.0 (alles was danach kommen kann)
+- chat
+- bezier-kurven, slidebar um granularitaet einzustellen
+- bilder einfuegen
+- timeslider
+- chat
+- more pens?
+
+
+
+OFFENE FRAGEN:
+- kann man sharepads loeschen?
+- sind teile der zeichnung objekte, die man per klick loeschen kann und verschieben?
