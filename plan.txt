@@ -10,10 +10,9 @@ v1.0 (minimale funktionen die wir haben sollten fuers erste veroeffentlichen)
 - (ggf. bei mousehover autor anzeigen)
 - sharepad hat unendliche ausdehnungen wie prezzi (scheinbar; so weit wie die koordinaten gespeichert werden koennen)
 - unterstuetzung von touch-geraeten und drawing pads
-
+- undo/redo
 
 keine anderen seiten, keine accounts, pure einfachheit :)
-
 
 
 
