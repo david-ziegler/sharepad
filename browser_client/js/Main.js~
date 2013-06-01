@@ -142,10 +142,12 @@ function mousewheel(e) {
 			shape.graphics.lt(point.x, point.y);
 
 			shape.scaleX = shape.scaleY = display.scaleX;
+			shape.x += display.x;
+			shape.y += display.y;
+			shape.regX = shape.x;
+			shape.regY = shape.y;
 
 			wrapper.addChild(shape);
-			
-
 			lastPoint.x = point.x;
 			lastPoint.y = point.y;
 		}
@@ -209,4 +211,8 @@ function keypress(e){
 		drawing.graphics.clear;
 		stage.update();
 	}
+}
+
+function clicked(){
+	window.alert('clicked button');
 }

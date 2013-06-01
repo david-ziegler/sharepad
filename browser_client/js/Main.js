@@ -10,7 +10,7 @@ var display
 function init(){
 	canvas = document.getElementById("canvas");
 	canvas.width = window.innerWidth;
-	canvas.heigth = window.innerHeight;
+	canvas.height = window.innerHeight;
 	canvas.style.cursor = 'crosshair';
 	stage = new createjs.Stage("canvas");
 
@@ -211,4 +211,8 @@ function keypress(e){
 		drawing.graphics.clear;
 		stage.update();
 	}
+}
+
+function clicked(){
+	window.alert('clicked button');
 }

@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Sharepad</title>
-		
-		<link type='stylesheet' href='css/style.css'>
+		<title>Sharepad</title>		
+
+		<link rel='stylesheet' type='text/css' href='css/style.css'>
 		<script src="http://code.createjs.com/createjs-2013.05.14.min.js"></script>
 		<script type='text/javascript' src="js/Main.js"></script>
-		
 	</head>
+
 	<body onload='init()' onKeyPress='keypress(event)'>
+		<div id="toolbar"></div>
+		<div id="box">		
+			<div id="box-middle"></div>
+ 			<div id="box-end"></div>
+		</div>
 		<canvas id="canvas" width="800" height="600"></canvas>
 	</body>
 </html>
-
