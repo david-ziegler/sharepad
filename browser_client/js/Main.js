@@ -35,7 +35,6 @@ function init(){
 	canvas.addEventListener('DOMMouseScroll', mousewheel, false);
 
 	stage.addEventListener("stagemousedown", function(e) {
-		//e.preventDefault();
 		console.log('mouse');
 		if(mode == 4){
 			var offset={x:stage.x-e.stageX,y:stage.y-e.stageY};
@@ -215,4 +214,8 @@ function keypress(e){
 
 function clicked(){
 	window.alert('clicked button');
+}
+
+function canvasMousedown(e){
+	e.preventDefault();
 }
