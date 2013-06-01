@@ -49,5 +49,31 @@ div#box-end{
 }
 
 input#text-input{
+	position: absolute;
 	DISPLAY: none;
+	z-index: 1;
 }
+
+img.button{
+	height: 50px;
+	width: 50px;
+	background-repeat: no-repeat;
+	margin-left: 15px;
+}
+
+img#pen-button{	
+	background: url('../asset/pen.png') no-repeat;
+	margin-left: 70px;
+}
+img#pen-button:HOVER{background: url('../asset/pen-hover.png') no-repeat;}
+img#pen-button:ACTIVE{background: url('../asset/pen-selected.png') no-repeat;}
+.selected{background: url('../asset/pen-selected.png') no-repeat;}
+img#eraser-button{	background: url('../asset/eraser.png') no-repeat;}
+img#eraser-button:HOVER{background: url('../asset/eraser-hover.png') no-repeat;}
+img#eraser-button:ACTIVE{background: url('../asset/eraser-selected.png') no-repeat;}
+img#text-button{	background: url('../asset/text.png') no-repeat;}
+img#text-button:HOVER{background: url('../asset/text-hover.png') no-repeat;}
+img#text-button:ACTIVE{background: url('../asset/text-selected.png') no-repeat;}
+img#hand-button{	background: url('../asset/hand.png') no-repeat;}
+img#hand-button:HOVER{background: url('../asset/hand-hover.png') no-repeat;}
+img#hand-button:ACTIVE{background: url('../asset/hand-selected.png') no-repeat;}

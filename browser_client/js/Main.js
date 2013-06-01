@@ -96,22 +96,16 @@ function init(){
 			// 'destination-over'
 		}
 		else if(mode == 3){	// text-tool:	
-			var textCursor = new createjs.Bitmap('asset/cursor_text_small.png');
-			textCursor.x = e.stageX;
-			textCursor.y = e.stageY - 9;
+			var textinput = document.getElementById('text-input');
+			textinput.style.display = 'block';
+			textinput.value = '';			
 			
-			//remove other cursor if set somewhere else:
-			if(typemode){
-				stage.removeChildAt(1);
-			}
-			
-			stage.addChild(textCursor);
-			stage.update();
-			typemode = 1;
-			textpos.x = textCursor.x + 7;
-			textpos.y = textCursor.y + 13;
-
-	
+			textpos.x = e.stageX - 10;
+			textpos.y = e.stageY - 12
+			textinput.style.left = textpos.x + 'px';
+			textinput.style.top = textpos.y + 'px';
+			textinput.focus();
+			typemode = 1;	
 		}
 	});
 
@@ -141,7 +135,6 @@ function mousewheel(e) {
 	lastPoint.x = points[0].x;
 	lastPoint.y = points[0].y;
 	for(var i = 1; i < points.length; i++){
-		console.log(points[i]);
 		if(points[i] == null){
 			if(!(i >= points.length-1 || points[i+1]==null)){
 				lastPoint.x = points[i+1].x;
@@ -157,7 +150,7 @@ function mousewheel(e) {
 			var pointShape = new createjs.Shape(); 
 			// Draw a round line from the last position to the current one.
 			var shape = new createjs.Shape()
-			shape.graphics.ss(20, "round").s(point.color);
+			shape.graphics.ss(point.width, "round").s(point.color);
 			shape.graphics.mt(lastPoint.x, lastPoint.y);        
 			shape.graphics.lt(point.x, point.y);
 
@@ -181,78 +174,57 @@ function mousewheel(e) {
 
 
 function keypress(e){
-	if(typemode){
-		console.log(e.keyCode);
+	console.log(mode);
+	switch(e.keyCode){
+	case 120:
+		mode = 1;
+		break;
+	case 99:
+		mode = 2;
+		break;
+	case 118:
+		mode = 3;
+		break;
+	case 98:
+		mode = 4;
+		break;
+
+	// just debugging:
+	/*
+	case 115:   //clear screen
 		
-
-		
-
-	/*	$('#text-input').hidden='false';
-		$('#text-input').top = textpos.y;
-		$('#text-input').left = textpos.x;*/
-
-	
-		var ch = String.fromCharCode(e.keyCode);
-		var text = new createjs.Text(ch, '20px Arial', '#000');	
-		text.x = textpos.x;
-		text.y = textpos.y;
-		textpos.x += 10;
-		text.textBaseline = "alphabetic";
-		console.log(ch);
-		stage.addChild(text);
-		stage.update();
-
-	} else {
-		switch(e.keyCode){
-		case 120:
-			mode = 1;
-			break;
-		case 99:
-			mode = 2;
-			break;
-		case 118:
-			mode = 3;
-			console.log(wrapper.children);
-			break;
-		case 98:
-			mode = 4;
-			break;
-
-		// just debugging:
-		case 115:   //clear screen
-			wrapper.removeAllChildren();
-			wrapper.updateCache();
-			break;
-		case 100:   // redraw
-			var lastPoint = new createjs.Point();
-			lastPoint.x = points[0].x;
-			lastPoint.y = points[0].y;
-			for(var i = 1; i < points.length; i++){
-				console.log(points[i]);
-				if(points[i] == null){
-					if(!(i >= points.length-1 || points[i+1]==null)){
-						lastPoint.x = points[i+1].x;
-						lastPoint.y = points[i+1].y;
-					}
-				} else{
-					var point = points[i];	
-					var pointShape = new createjs.Shape(); 
-					// Draw a round line from the last position to the current one.
-					drawing.graphics.ss(20, "round").s(point.color);
-					drawing.graphics.mt(lastPoint.x, lastPoint.y);        
-					drawing.graphics.lt(point.x, point.y);
-
-					// Draw onto the canvas, and then update the container cache.
-
-					lastPoint.x = point.x;
-					lastPoint.y = point.y;
+		wrapper.removeAllChildren();
+		wrapper.updateCache();
+		break;
+	case 100:   // redraw
+		var lastPoint = new createjs.Point();
+		lastPoint.x = points[0].x;
+		lastPoint.y = points[0].y;
+		for(var i = 1; i < points.length; i++){
+			if(points[i] == null){
+				if(!(i >= points.length-1 || points[i+1]==null)){
+					lastPoint.x = points[i+1].x;
+					lastPoint.y = points[i+1].y;
 				}
+			} else{
+				var point = points[i];	
+				var pointShape = new createjs.Shape(); 
+				// Draw a round line from the last position to the current one.
+				drawing.graphics.ss(point.width, "round").s(point.color);
+				drawing.graphics.mt(lastPoint.x, lastPoint.y);        
+				drawing.graphics.lt(point.x, point.y);
+
+				// Draw onto the canvas, and then update the container cache.
+
+				lastPoint.x = point.x;
+				lastPoint.y = point.y;
 			}
-			wrapper.addChild(drawing);
-			wrapper.updateCache("source-over");
-			drawing.graphics.clear;
-			stage.update();
 		}
+		wrapper.addChild(drawing);
+		wrapper.updateCache("source-over");
+		drawing.graphics.clear;
+		stage.update();
+		*/
 	}
 }
 
@@ -264,6 +236,46 @@ function canvasMousedown(e){
 	e.preventDefault();
 }
 
-function button(){
-	console.log('button');
+function textTyping(e){
+	// if pressed enter:
+	if(e.keyCode == 13) finishTextinput();
+		
+}
+
+function finishTextinput(){
+	var inputelement = document.getElementById('text-input');
+	inputelement.style.display = 'none';
+	
+	var str = inputelement.value;
+	var text = new createjs.Text(str, '20px Arial', '#000');
+	text.x = textpos.x;
+	text.y = textpos.y + 15;
+	text.textBaseline = "alphabetic";
+
+	stage.addChild(text);
+	stage.update();
+}
+
+function usepen(){
+	mode = 1;
+	canvas.style.cursor = 'crosshair';
+	$('#pen-button').addClass('selected');
+}
+
+function useeraser(){
+	mode = 2;
+	canvas.style.cursor = 'crosshair';
+	$('#eraser-button').addClass('selected');
+}
+
+function usetext(){
+	mode = 3;
+	canvas.style.cursor = 'text';
+	$('#text-button').addClass('selected');
+}
+
+function usehand(){
+	mode = 4;
+	canvas.style.cursor = 'move';
+	$('#hand-button').addClass('selected');
 }
