@@ -5,15 +5,27 @@
 
 		<link rel='stylesheet' type='text/css' href='css/style.css'>
 		<script src="http://code.createjs.com/createjs-2013.05.14.min.js"></script>
+		<script type='text/javascript' src='http://code.jquery.com/jquery-1.10.0.min.js'></script>
 		<script type='text/javascript' src="js/Main.js"></script>
 	</head>
 
 	<body onload='init()' onKeyPress='keypress(event)'>
-		<div id="toolbar"></div>
+		<div id="toolbar">
+			<table>
+			<tr>
+				<td><img src='asset/pen.png' onmousedown='button()' alt='pen-tool'></td>
+				<td><img src='asset/eraser.png'  onmousedown='button()' alt='eraser-tool'></td>
+				<td><img src='asset/cursor_text.png' onmousedown='button()' alt='text-tool'></td>
+				<td><img src='asset/cursor_hand.png' onmousedown='button()' alt='navigation-tool'></td>
+			</tr>
+			</table>
+		</div>
 		<div id="box">		
-			<div id="box-middle"></div>
+				
+			<div id="box-middle"><input id='text-input'></input></div>
  			<div id="box-end"></div>
 		</div>
 		<canvas id="canvas" width="800" height="600" onmousedown='canvasMousedown(event)'></canvas>
+
 	</body>
 </html>

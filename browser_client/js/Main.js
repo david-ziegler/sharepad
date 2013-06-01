@@ -6,8 +6,11 @@ var zoom
 var points
 var mode = 1; //1=drawing, 2=erasing, 3=text, 4=navigating
 var display
+var typemode
+var textpos
 
 function init(){
+	typemode = 0;
 	canvas = document.getElementById("canvas");
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
@@ -18,6 +21,7 @@ function init(){
 	display = new createjs.DisplayObject();  // for zooming and navigating
 	
 	points = new Array();
+	textpos = new createjs.Point();
 
 	// Set up the container. We use it to draw in, and also to get mouse events.
 	wrapper = new createjs.Container();
@@ -35,7 +39,6 @@ function init(){
 	canvas.addEventListener('DOMMouseScroll', mousewheel, false);
 
 	stage.addEventListener("stagemousedown", function(e) {
-		console.log('mouse');
 		if(mode == 4){
 			var offset={x:stage.x-e.stageX,y:stage.y-e.stageY};
 			stage.addEventListener("stagemousemove",function(e) {
@@ -61,12 +64,12 @@ function init(){
 				var point = new Object();
 				point.x = e.stageX;
 				point.y = e.stageY;
-				point.width = 10;
+				point.width = 3;
 				point.color = '#000';
 				point.time = new Date().toLocaleString();
 
 				// Draw a round line from the last position to the current one.
-				drawing.graphics.ss(20, "round").s(point.color);
+				drawing.graphics.ss(point.width, "round").s(point.color);
 				drawing.graphics.mt(lastPoint.x, lastPoint.y);        
 				drawing.graphics.lt(point.x, point.y);
 
@@ -91,6 +94,24 @@ function init(){
 		else if(mode == 2){
 			console.log('erase');
 			// 'destination-over'
+		}
+		else if(mode == 3){	// text-tool:	
+			var textCursor = new createjs.Bitmap('asset/cursor_text_small.png');
+			textCursor.x = e.stageX;
+			textCursor.y = e.stageY - 9;
+			
+			//remove other cursor if set somewhere else:
+			if(typemode){
+				stage.removeChildAt(1);
+			}
+			
+			stage.addChild(textCursor);
+			stage.update();
+			typemode = 1;
+			textpos.x = textCursor.x + 7;
+			textpos.y = textCursor.y + 13;
+
+	
 		}
 	});
 
@@ -160,55 +181,78 @@ function mousewheel(e) {
 
 
 function keypress(e){
-	switch(e.keyCode){
-	case 120:
-		mode = 1;
-		break;
-	case 99:
-		mode = 2;
-		break;
-	case 118:
-		mode = 3;
-		console.log(wrapper.children);
-		break;
-	case 98:
-		mode = 4;
-		break;
+	if(typemode){
+		console.log(e.keyCode);
+		
 
-	// just debugging:
-	case 115:   //clear screen
-		wrapper.removeAllChildren();
-		wrapper.updateCache();
-		break;
-	case 100:   // redraw
-		var lastPoint = new createjs.Point();
-		lastPoint.x = points[0].x;
-		lastPoint.y = points[0].y;
-		for(var i = 1; i < points.length; i++){
-			console.log(points[i]);
-			if(points[i] == null){
-				if(!(i >= points.length-1 || points[i+1]==null)){
-					lastPoint.x = points[i+1].x;
-					lastPoint.y = points[i+1].y;
-				}
-			} else{
-				var point = points[i];	
-				var pointShape = new createjs.Shape(); 
-				// Draw a round line from the last position to the current one.
-				drawing.graphics.ss(20, "round").s(point.color);
-				drawing.graphics.mt(lastPoint.x, lastPoint.y);        
-				drawing.graphics.lt(point.x, point.y);
+		
 
-				// Draw onto the canvas, and then update the container cache.
+	/*	$('#text-input').hidden='false';
+		$('#text-input').top = textpos.y;
+		$('#text-input').left = textpos.x;*/
 
-				lastPoint.x = point.x;
-				lastPoint.y = point.y;
-			}
-		}
-		wrapper.addChild(drawing);
-		wrapper.updateCache("source-over");
-		drawing.graphics.clear;
+	
+		var ch = String.fromCharCode(e.keyCode);
+		var text = new createjs.Text(ch, '20px Arial', '#000');	
+		text.x = textpos.x;
+		text.y = textpos.y;
+		textpos.x += 10;
+		text.textBaseline = "alphabetic";
+		console.log(ch);
+		stage.addChild(text);
 		stage.update();
+
+	} else {
+		switch(e.keyCode){
+		case 120:
+			mode = 1;
+			break;
+		case 99:
+			mode = 2;
+			break;
+		case 118:
+			mode = 3;
+			console.log(wrapper.children);
+			break;
+		case 98:
+			mode = 4;
+			break;
+
+		// just debugging:
+		case 115:   //clear screen
+			wrapper.removeAllChildren();
+			wrapper.updateCache();
+			break;
+		case 100:   // redraw
+			var lastPoint = new createjs.Point();
+			lastPoint.x = points[0].x;
+			lastPoint.y = points[0].y;
+			for(var i = 1; i < points.length; i++){
+				console.log(points[i]);
+				if(points[i] == null){
+					if(!(i >= points.length-1 || points[i+1]==null)){
+						lastPoint.x = points[i+1].x;
+						lastPoint.y = points[i+1].y;
+					}
+				} else{
+					var point = points[i];	
+					var pointShape = new createjs.Shape(); 
+					// Draw a round line from the last position to the current one.
+					drawing.graphics.ss(20, "round").s(point.color);
+					drawing.graphics.mt(lastPoint.x, lastPoint.y);        
+					drawing.graphics.lt(point.x, point.y);
+
+					// Draw onto the canvas, and then update the container cache.
+
+					lastPoint.x = point.x;
+					lastPoint.y = point.y;
+				}
+			}
+			wrapper.addChild(drawing);
+			wrapper.updateCache("source-over");
+			drawing.graphics.clear;
+			stage.update();
+		}
 	}
 }
 
@@ -218,4 +262,8 @@ function clicked(){
 
 function canvasMousedown(e){
 	e.preventDefault();
+}
+
+function button(){
+	console.log('button');
 }
