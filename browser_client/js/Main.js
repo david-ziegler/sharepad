@@ -1,6 +1,9 @@
 var canvas	  // html-canvas to draw on
 var stage	  // easeljs-concept to draw on
 var wrapper	  // Container, parent of all drawn paths
+var width = 3000;  // dimensions of whole document
+var height = 1500;
+
 
 var points	  // array of all points, paths consist of lines connecting points
 var mode = 1; 	  // 1=drawing, 2=erasing, 3=text, 4=navigating
@@ -28,12 +31,20 @@ function init(){
 
 	// Set up the container. We use it to draw in, and also to get mouse events.
 	wrapper = new createjs.Container();
-	wrapper.hitArea = new createjs.Shape(new createjs.Graphics().f("#000").dr(0,0,canvas.width, canvas.height));
-	wrapper.cache(0,0,canvas.width, canvas.height); // Cache it.
+	//wrapper.hitArea = new createjs.Shape(new createjs.Graphics().f("#000").dr(0,0,5000, 5000));
+	wrapper.cache(0,0, width, height);
+	wrapper.x = display.x = -width/2 + canvas.width/2;
+	wrapper.y = display.y = -height/2 + canvas.height/2;
 	stage.addChild(wrapper);
 
-	lastPoint = new createjs.Point();
+	var rect = new createjs.Shape();
+	console.log(wrapper.width);
+	rect.graphics.setStrokeStyle(4).beginStroke('#888').drawRoundRect(1,1, width-2, height-2, 10);
+	wrapper.addChild(rect);
+	wrapper.updateCache();
 
+
+	lastPoint = new createjs.Point();
 
 
 
@@ -43,6 +54,9 @@ function init(){
 
 	stage.addEventListener("stagemousedown", function(e) {
 
+		x = e.stageX - display.x;
+		y = e.stageY - display.y;
+
 		// remove text-input if user switches to another mode:
 		if(mode == 1){		// DRAWING-MODE		
 			pathID++;
@@ -50,16 +64,20 @@ function init(){
 			
 			// Listen for mousemove
 			stage.addEventListener("stagemousemove", function(e){
+				// update coordinates:
+				x = e.stageX - display.x;
+				y = e.stageY - display.y;
+
 				if(firstPoint){
 					firstPoint = 0;
-					lastPoint.x = e.stageX;
-					lastPoint.y = e.stageY;
+					lastPoint.x = x;
+					lastPoint.y = y;
 				}
 				var point = new Object();
 				point.pathID = pathID;
-				point.x = e.stageX;
-				point.y = e.stageY;
-				point.width = 20;
+				point.x = x;
+				point.y = y;
+				point.width = 4;
 				point.color = '#000';
 				point.time = new Date().toLocaleString();
 
@@ -89,7 +107,7 @@ function init(){
 			});
 		}
 		else if(mode == 2){	// ERASING-MODE
-			foundObj = wrapper.getObjectUnderPoint(e.stageX, e.stageY);
+			foundObj = wrapper.getObjectUnderPoint(x, y);
 			console.log(foundObj);
 			if(foundObj != null){
 				console.log(foundObj.name);
@@ -135,22 +153,51 @@ function init(){
 			textinput.style.display = 'block';
 			textinput.value = '';			
 			
-			textpos.x = e.stageX - 10;
-			textpos.y = e.stageY - 12
+			textpos.x = e.rawX - 10;
+			textpos.y = e.rawY - 12;
 			textinput.style.left = textpos.x + 'px';
 			textinput.style.top = textpos.y + 'px';
 			textinput.focus();
 			typemode = 1;	
 
 		} else if(mode == 4){	// NAVIGATION-MODE
-			var offset={x:stage.x-e.stageX,y:stage.y-e.stageY};
+			var offset={x:wrapper.x - e.stageX,y:wrapper.y - e.stageY};
+			var startDragging={x:e.stageX, y:e.stageY};
 			stage.addEventListener("stagemousemove",function(e) {
-				stage.x = e.stageX+offset.x;
-				stage.y = e.stageY+offset.y;
-				stage.update();
+				x = e.stageX;
+				y = e.stageY;
+
+				horiborder = new Boolean(0);	// reached horizontal border
+				vertiborder = new Boolean(0);	// reached vertical border
+				if((wrapper.x >= 0 && (x - startDragging.x) > 0) || (wrapper.x <= -(width - canvas.width) && (x - startDragging.x) < 0)){
+					// reached right or left border:
+					vertiborder = true;
+				} else vertiborder = false;
+				if((wrapper.y >= 0 && (y - startDragging.y) > 0) || (wrapper.y <= -(height - canvas.height) && (y - startDragging.y) < 0)){
+					// reached top or bottom border:					
+					horiborder = true;	
+				} else horiborder = false;
+
+				if(horiborder && vertiborder){
+					// reached horizontal & vertical border --> don't move in any direction
+				} else if(vertiborder){
+					wrapper.y = e.stageY + offset.y;
+					wrapper.updateCache();
+				} else if(horiborder){
+					wrapper.x = e.stageX + offset.x;
+					wrapper.updateCache();
+				} else {
+					// reached no borders:
+					wrapper.x = e.stageX + offset.x;
+					wrapper.y = e.stageY + offset.y;
+					wrapper.updateCache();
+				}
 			});
 			stage.addEventListener("stagemouseup", function(){
 				stage.removeAllEventListeners("stagemousemove");
+
+				display.x = wrapper.x;
+				display.y = wrapper.y;
 			});
 		}	
 	});
@@ -210,9 +257,7 @@ function mousewheel(e) {
 			lastPoint.y = point.y;
 		}
 	}
-	//wrapper.addChild(drawing);
 	wrapper.updateCache();
-	drawing.graphics.clear;
 	stage.update();
 }
 	
@@ -231,11 +276,18 @@ function keypress(e){
 			usetext();
 			break;
 		case 98:
+			console.log('x, y, regX, regY, scaleX, scaleY');
+			console.log('display: ' + display.x + ', ' + display.y + ', ' + display.regX + ', ' + display.regY + ', ' + display.scaleX + ', ' + display.scaleY);
+			console.log('stage: ' + stage.x + ', ' + stage.y + ', ' + stage.regX + ', ' + stage.regY + ', ' + stage.zoom);
+			console.log('wrapper: ' +  wrapper.x + ', ' + wrapper.y + ', ' + wrapper.regX + ', ' + wrapper.regY + ', ' + wrapper.scaleX + ', ' + wrapper.scaleY);
+		
+			
 			usehand();
 			break;
 		}
-	}
+
 	console.log('mode: ' + mode);
+	}
 }
 
 function clicked(){
@@ -255,20 +307,19 @@ function textTyping(e){
 function finishTextinput(){
 	removeTextinput();	
 
-	var str = inputelement.value;
+	var str = $('#text-input').val();
 	var text = new createjs.Text(str, '20px Arial', '#000');
-	text.x = textpos.x;
-	text.y = textpos.y + 15;
+	text.x = textpos.x - display.x;
+	text.y = textpos.y - display.y + 15;
 	text.textBaseline = "alphabetic";
 
-	stage.addChild(text);
-	stage.update();
+	wrapper.addChild(text);
+	wrapper.updateCache();
 }
 
 function removeTextinput(){
 	typemode = 0;
-	var inputelement = document.getElementById('text-input');
-	inputelement.style.display = 'none';
+	$('#text-input').hide();
 }
 
 function usepen(){
