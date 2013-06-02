@@ -1,0 +1,9 @@
+{
+    "name": "sharepad",
+    "description": "share drawings in realtime",
+    "version": "0.0.1",
+    "dependencies": {
+        "express": "3.2.5",
+        "socket.io": "0.9.14"
+    }
+}
