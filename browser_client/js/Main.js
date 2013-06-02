@@ -1,21 +1,24 @@
-var canvas
-var stage
-var wrapper
-var drawing
-var zoom
-var points
-var mode = 1; //1=drawing, 2=erasing, 3=text, 4=navigating
-var display
-var typemode
-var textpos
+var canvas	  // html-canvas to draw on
+var stage	  // easeljs-concept to draw on
+var wrapper	  // Container, parent of all drawn paths
+
+var points	  // array of all points, paths consist of lines connecting points
+var mode = 1; 	  // 1=drawing, 2=erasing, 3=text, 4=navigating
+var display	  // DisplayObject to store the current zoom-state and navigation-position
+var zoom	  // factor to zoom
+var textpos	  // text-mode: position to start writing text
+var typemode = 0; //text-mode: currently writing text
+var pathID = -1;  // every path has an ID --> erase whole path
+var lastPoint	  // used to draw paths from the last mouse-point to the current
 
 function init(){
-	typemode = 0;
+
 	canvas = document.getElementById("canvas");
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 	canvas.style.cursor = 'crosshair';
 	stage = new createjs.Stage("canvas");
+
 
 	createjs.Ticker.addEventListener("tick", stage);
 	display = new createjs.DisplayObject();  // for zooming and navigating
@@ -29,29 +32,20 @@ function init(){
 	wrapper.cache(0,0,canvas.width, canvas.height); // Cache it.
 	stage.addChild(wrapper);
 
-	// Create the shape to draw into
-	drawing = new createjs.Shape();
-	wrapper.addChild(drawing);
+	lastPoint = new createjs.Point();
 
-	var lastPoint = new createjs.Point();
+
+
+
 
 	canvas.addEventListener('mousewheel', mousewheel, false);
 	canvas.addEventListener('DOMMouseScroll', mousewheel, false);
 
 	stage.addEventListener("stagemousedown", function(e) {
-		if(mode == 4){
-			var offset={x:stage.x-e.stageX,y:stage.y-e.stageY};
-			stage.addEventListener("stagemousemove",function(e) {
-				stage.x = e.stageX+offset.x;
-				stage.y = e.stageY+offset.y;
-				stage.update();
-			});
-			stage.addEventListener("stagemouseup", function(){
-				stage.removeAllEventListeners("stagemousemove");
-		});
-		}
-		else if(mode == 1){	//drawing mode		
-		
+
+		// remove text-input if user switches to another mode:
+		if(mode == 1){		// DRAWING-MODE		
+			pathID++;
 			var firstPoint = new Boolean(1);			
 			
 			// Listen for mousemove
@@ -62,18 +56,22 @@ function init(){
 					lastPoint.y = e.stageY;
 				}
 				var point = new Object();
+				point.pathID = pathID;
 				point.x = e.stageX;
 				point.y = e.stageY;
-				point.width = 3;
+				point.width = 20;
 				point.color = '#000';
 				point.time = new Date().toLocaleString();
 
 				// Draw a round line from the last position to the current one.
+				var drawing = new createjs.Shape();
+				drawing.name = pathID.toString();
 				drawing.graphics.ss(point.width, "round").s(point.color);
 				drawing.graphics.mt(lastPoint.x, lastPoint.y);        
 				drawing.graphics.lt(point.x, point.y);
 
 				// Draw onto the canvas, and then update the container cache.
+				wrapper.addChild(drawing);
 				wrapper.updateCache("source-over");
 
 				// Update the last position for next move.
@@ -81,7 +79,6 @@ function init(){
 				lastPoint.y = point.y;
 
 				points.push(point);
-				drawing.graphics.clear();
 			});
 			
 			stage.addEventListener("stagemouseup", function(){
@@ -91,11 +88,49 @@ function init(){
 				points.push(null);
 			});
 		}
-		else if(mode == 2){
-			console.log('erase');
-			// 'destination-over'
+		else if(mode == 2){	// ERASING-MODE
+			foundObj = wrapper.getObjectUnderPoint(e.stageX, e.stageY);
+			console.log(foundObj);
+			if(foundObj != null){
+				console.log(foundObj.name);
+				var deleted = new Array();
+				for(i in points){
+					var point = points[i];
+					if(point != null && point.pathID == foundObj.name){
+						// lazy-delete
+						console.log('delete: ' + point.x + ', ' + point.y);
+
+						// save deletePoints to delete them on the canvas
+						deleted.push(point);
+					}
+				}
+
+				// remove deleted path from canvas:
+				lastPoint.x = deleted[0].x;
+				lastPoint.y = deleted[0].y;
+				for(i in deleted){
+					var point = deleted[i];
+
+					point.color = '#FFF';
+
+					// Draw a round line from the last position to the current one.
+					point.x;
+					point.y;
+					var drawing = new createjs.Shape();
+					drawing.name = pathID.toString();
+					drawing.graphics.ss(point.width + 2, "round").s(point.color);
+					drawing.graphics.mt(lastPoint.x, lastPoint.y);        
+					drawing.graphics.lt(point.x, point.y);
+
+					wrapper.addChild(drawing);
+
+					lastPoint.x = point.x;
+					lastPoint.y = point.y;
+				}
+				wrapper.updateCache('source-over');
+			}
 		}
-		else if(mode == 3){	// text-tool:	
+		else if(mode == 3){	// TEXT-MODE	
 			var textinput = document.getElementById('text-input');
 			textinput.style.display = 'block';
 			textinput.value = '';			
@@ -106,7 +141,18 @@ function init(){
 			textinput.style.top = textpos.y + 'px';
 			textinput.focus();
 			typemode = 1;	
-		}
+
+		} else if(mode == 4){	// NAVIGATION-MODE
+			var offset={x:stage.x-e.stageX,y:stage.y-e.stageY};
+			stage.addEventListener("stagemousemove",function(e) {
+				stage.x = e.stageX+offset.x;
+				stage.y = e.stageY+offset.y;
+				stage.update();
+			});
+			stage.addEventListener("stagemouseup", function(){
+				stage.removeAllEventListeners("stagemousemove");
+			});
+		}	
 	});
 
 }
@@ -131,7 +177,6 @@ function mousewheel(e) {
 	display.scaleY = display.scaleX;
 
 	// redraw all points:
-	var lastPoint = new createjs.Point();
 	lastPoint.x = points[0].x;
 	lastPoint.y = points[0].y;
 	for(var i = 1; i < points.length; i++){
@@ -174,58 +219,23 @@ function mousewheel(e) {
 
 
 function keypress(e){
-	console.log(mode);
-	switch(e.keyCode){
-	case 120:
-		mode = 1;
-		break;
-	case 99:
-		mode = 2;
-		break;
-	case 118:
-		mode = 3;
-		break;
-	case 98:
-		mode = 4;
-		break;
-
-	// just debugging:
-	/*
-	case 115:   //clear screen
-		
-		wrapper.removeAllChildren();
-		wrapper.updateCache();
-		break;
-	case 100:   // redraw
-		var lastPoint = new createjs.Point();
-		lastPoint.x = points[0].x;
-		lastPoint.y = points[0].y;
-		for(var i = 1; i < points.length; i++){
-			if(points[i] == null){
-				if(!(i >= points.length-1 || points[i+1]==null)){
-					lastPoint.x = points[i+1].x;
-					lastPoint.y = points[i+1].y;
-				}
-			} else{
-				var point = points[i];	
-				var pointShape = new createjs.Shape(); 
-				// Draw a round line from the last position to the current one.
-				drawing.graphics.ss(point.width, "round").s(point.color);
-				drawing.graphics.mt(lastPoint.x, lastPoint.y);        
-				drawing.graphics.lt(point.x, point.y);
-
-				// Draw onto the canvas, and then update the container cache.
-
-				lastPoint.x = point.x;
-				lastPoint.y = point.y;
-			}
+	if(!typemode){
+		switch(e.keyCode){
+		case 120:
+			usepen();
+			break;
+		case 99:
+			useeraser();
+			break;
+		case 118:
+			usetext();
+			break;
+		case 98:
+			usehand();
+			break;
 		}
-		wrapper.addChild(drawing);
-		wrapper.updateCache("source-over");
-		drawing.graphics.clear;
-		stage.update();
-		*/
 	}
+	console.log('mode: ' + mode);
 }
 
 function clicked(){
@@ -243,9 +253,8 @@ function textTyping(e){
 }
 
 function finishTextinput(){
-	var inputelement = document.getElementById('text-input');
-	inputelement.style.display = 'none';
-	
+	removeTextinput();	
+
 	var str = inputelement.value;
 	var text = new createjs.Text(str, '20px Arial', '#000');
 	text.x = textpos.x;
@@ -256,16 +265,24 @@ function finishTextinput(){
 	stage.update();
 }
 
+function removeTextinput(){
+	typemode = 0;
+	var inputelement = document.getElementById('text-input');
+	inputelement.style.display = 'none';
+}
+
 function usepen(){
 	mode = 1;
 	canvas.style.cursor = 'crosshair';
 	$('#pen-button').addClass('selected');
+	if(typemode) removeTextinput();
 }
 
 function useeraser(){
 	mode = 2;
 	canvas.style.cursor = 'crosshair';
 	$('#eraser-button').addClass('selected');
+	if(typemode) removeTextinput();
 }
 
 function usetext(){
@@ -278,4 +295,5 @@ function usehand(){
 	mode = 4;
 	canvas.style.cursor = 'move';
 	$('#hand-button').addClass('selected');
+	if(typemode) removeTextinput();
 }

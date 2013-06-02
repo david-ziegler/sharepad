@@ -77,3 +77,9 @@ img#text-button:ACTIVE{background: url('../asset/text-selected.png') no-repeat;}
 img#hand-button{	background: url('../asset/hand.png') no-repeat;}
 img#hand-button:HOVER{background: url('../asset/hand-hover.png') no-repeat;}
 img#hand-button:ACTIVE{background: url('../asset/hand-selected.png') no-repeat;}
+
+#canvas2{
+	position: absolute;
+	top: 0px;
+	left: 400px;
+}
