@@ -1,6 +1,6 @@
 appsocket = () ->
   console.log 'connecting to server'
-  socket = io.connect('http://localhost:8080')
+  socket = io.connect('http://localhost:5000')
 
   socket.on 'connect', () ->
     console.log 'connected'

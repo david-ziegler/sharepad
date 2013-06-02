@@ -1,17 +1,27 @@
-app = require('express')()
-server = require('http').createServer(app)
-io = require('socket.io').listen(server)
+sio = require('socket.io')
+express = require 'express'
+http = require 'http'
+app = express()
+server = http.createServer(app)
+fs = require('fs')
 
-server.listen(8080)
-
-app.get('/', (req, res) ->
-  res.sendfile(__dirname + '/index.html')
+app.configure( () ->
+  app.use(express.favicon())
+  app.use(express.logger('dev'))
 )
+io = sio.listen(server)
 
-app.get('/client.js', (req, res) ->
-  res.sendfile(__dirname + '/client.js')
+app.use('/js',express.static("#{__dirname}/public/js"))
+app.use('/css',express.static("#{__dirname}/public/css"))
+app.use('/assets',express.static("#{__dirname}/public/assets"))
+
+app.get('/chat.html', (req, res) ->
+  fs.readFile("#{__dirname}/public/chat.html", (err, data) ->
+    return res.end(404) if err?
+    res.writeHead(200, {'Content-Type': 'text/html'})
+    res.end(data)
+  )
 )
-
 
 #logged in users
 usernames = {}
@@ -45,3 +55,8 @@ io.sockets.on 'connection', (socket) ->
     socket.broadcast.emit 'updatechat', 'SERVER', "#{socket.username}
       has disconnected"
 
+#Heroku
+port = process.env.PORT || 3000
+server.listen(port, () ->
+  console.log("Listening on #{port}")
+)
