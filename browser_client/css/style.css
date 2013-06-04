@@ -4,7 +4,16 @@ body {
     margin: 0px;
     width: 100%;
     height: 100%;
-    padding-bottom: 20px;
+}
+
+h3{
+	color: #11AA77;
+	font-family: Helvetica, Arial, sans-serif;
+	margin: 0px 0px 0px 0px;
+}
+
+input{
+	margin: 2.5px 0px 2.5px 0px;
 }
 
 #canvas{
@@ -13,7 +22,6 @@ body {
     position: absolute;
     top: 0px;
     left: 0px;
-    bottom: 0px;
 }
 
 div#toolbar{
@@ -23,30 +31,87 @@ div#toolbar{
 	vertical-align: center;
 	margin-left: auto;
 	margin-right: auto;
+	z-index: 2;
+}
+
+div#left-box-wrapper{
+	position: absolute;
+	top: -5px;
+	left: -280px;
+	background-image: url('../asset/left-box.png');
+	height: 60px;
+	width: 594px;
 	z-index: 1;
 }
 
-div#box{
+div#left-box-content{
+	position: absolute;
+	top: 7px;
+	left: 305px;
+}
+
+
+
+div.color-button{
+	width: 15px;
+       	height:	15px;
+	background-repeat: no-repeat;
+}
+
+div#black{background-image: url('../asset/colors/black.png');}
+div#black:ACTIVE { background-image: url('..asset/colors/black.png'), url('..asset/colors/fill-blue.png');}
+div#gray{ background-image: url('../asset/colors/gray.png');}
+div#gray:ACTIVE{ background-image: url('..asset/colors/gray.png'), url('..asset/colors/fill-blue.png');}
+div#brown{ background-image: url('../asset/colors/brown.png');}
+div#brown:ACTIVE{ background-image: url('..asset/colors/brown.png'), url('..asset/colors/fill-blue.png');}
+div#orange{ background-image: url('../asset/colors/orange.png');}
+div#orange:ACTIVE{ background-image: url('..asset/colors/orange.png'), url('..asset/colors/fill-blue.png');}
+div#red{ background-image: url('../asset/colors/red.png');}
+div#red:ACTIVE{ background-image: url('..asset/colors/red.png'), url('..asset/colors/fill-blue.png');}
+div#yellow{ background-image: url('../asset/colors/yellow.png');}
+div#yellow:ACTIVE{ background-image: url('..asset/colors/yellow.png'), url('..asset/colors/fill-blue.png');}
+div#green{ background-image: url('../asset/colors/green.png');}
+div#green:ACTIVE{ background-image: url('..asset/colors/green.png'), url('..asset/colors/fill-blue.png');}
+div#blue{ background-image: url('../asset/colors/blue.png');}
+div#blue:ACTIVE{ background-image: url('..asset/colors/blue.png'), url('..asset/colors/fill-blue.png');}
+div#light-blue{ background-image: url('../asset/colors/light-blue.png');}
+div#light-blue:ACTIVE{ background-image: url('..asset/colors/light-blue.png'), url('..asset/colors/fill-blue.png');}
+div#magenta{ background-image: url('../asset/colors/magenta.png');}
+div#magenta:ACTIVE{ background-image: url('..asset/colors/magenta.png'), url('..asset/colors/fill-blue.png');}
+
+div#right-box{
 	color:#AAAAAA;
 	position: absolute;
 	top:0px;
 	right:0px;
-	height: 300px;
-	z-index: 1;
+	width: 350px;
 }
 
-div#box-middle{
+div#box-main{
     	background-image: url('../asset/box.png');
 	background-repeat: repeat-y;
-	width: 300px;
+	width: 100%;
 }
 
 div#box-end{
 	background-image: url('../asset/box_end.png');
-
-	width: 300px;
-	height: 113px;
+	height: 31px;
+	width: 100%;
+	z-index: 1;
 }
+
+div#box-content{
+	margin: 0px 20px 0px 30px;
+}
+
+input#username{
+	width: 100px;
+}
+
+input#url{
+	width: 130px;
+}
+
 
 input#text-input{
 	position: absolute;
@@ -54,7 +119,32 @@ input#text-input{
 	z-index: 1;
 }
 
-img.button{
+div#minimize-right-button{
+	background-image: url('../asset/minimize.png');
+	background-size: 15px 15px;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+	z-index: 2;
+	float: right;
+}
+
+td#minimize-button{
+	vertical-align: bottom;
+}
+
+div#minimize-all-button{
+	background-image: url('../asset/minimize.png');
+	background-size: 15px 15px;
+	background-repeat: no-repeat;
+	width: 20px;
+	height: 20px;
+	z-index: 2;
+	vertical-align: top;
+
+}
+
+img.tool-button{
 	height: 50px;
 	width: 50px;
 	background-repeat: no-repeat;
@@ -77,9 +167,3 @@ img#text-button:ACTIVE{background: url('../asset/text-selected.png') no-repeat;}
 img#hand-button{	background: url('../asset/hand.png') no-repeat;}
 img#hand-button:HOVER{background: url('../asset/hand-hover.png') no-repeat;}
 img#hand-button:ACTIVE{background: url('../asset/hand-selected.png') no-repeat;}
-
-#canvas2{
-	position: absolute;
-	top: 0px;
-	left: 400px;
-}

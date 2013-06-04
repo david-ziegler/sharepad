@@ -11,20 +11,82 @@
 	</head>
 
 	<body onload='init()' onKeyPress='keypress(event)'>
+		<div id='left-box-wrapper'>
+			<div id='left-box-content'>
+				<table id='left-box-content'>
+					<tr>
+						<td><div class='color-button' id='black' onmousedown='selectcolor('#000000')'></div></td>
+						<td><div class='color-button' id= 'green' onmousedown= 'green()'></div></td>
+						<td><div class='color-button' id='red' onmousedown= 'red()'></div></td>
+						<td><div class='color-button' id='yellow' onmousedown= 'yellow()'></div></td>
+						<td><div class='color-button' id= 'blue' onmousedown= 'blue()'</div></td>
+					</tr>
+					<tr>
+						<td><div class='color-button' id='gray' onmousedown= 'gray()'></div></td>
+						<td><div class='color-button' id= 'brown' onmousedown= 'brown()'></div></td>
+						<td><div class='color-button' id='magenta' onmousedown= 'magenta()'></div> </td>
+						<td><div class='color-button' id='orange' onmousedown= 'orange()'></div></td>
+						<td id='minimize-button'><div class='color-button' id= 'light-blue' onmousedown= 'light-blue()'></div></td>
+					</tr>
+				</table>
+			</div> !G!+
+		</div>
 		<div id="toolbar">
+			
 			<table>
 			<tr>
-				<td><img class='button' id='pen-button' onmousedown='usepen()' alt='pen-tool'></td>
-				<td><img class='button' id='eraser-button' onmousedown='useeraser()' alt='eraser-tool'></td>
-				<td><img class='button' id='text-button' onmousedown='usetext()' alt='text-tool'></td>
-				<td><img class='button' id='hand-button' onmousedown='usehand()' alt='navigation-tool'></td>
+				<td><img class='tool-button' id='pen-button' onmousedown='usepen()' alt='pen-tool'></td>
+				<td><img class='tool-button' id='eraser-button' onmousedown='useeraser()' alt='eraser-tool'></td>
+				<td><img class='tool-button' id='text-button' onmousedown='usetext()' alt='text-tool'></td>
+				<td><img class='tool-button' id='hand-button' onmousedown='usehand()' alt='navigation-tool'></td>
+				<td><div id='minimize-all-button' onmousedown='minimize-all()'></div></td>
 			</tr>
 			</table>
+			
 		</div>
-		<div id="box">		
-				
-			<div id="box-middle"></div>
- 			<div id="box-end"></div>
+		
+		<div id="right-box">		
+			<div id="box-main">
+				<div id='box-content'>
+					<table style='width: 100%'>
+						<tr>
+							<td>
+								<h3>share:</h3>		
+							</td>
+							<td style='text-align: right;'>
+								<label>url
+								<input id='url' value='www.url.com/blabla'></input></label>
+							</td>
+						</tr>
+					</table>
+					<div style='text-align: right;'>
+						<table>
+							<tr>	
+								<td>	
+									<input id='username' value='your name'></input>
+								</td>
+								<td>
+									<div id='this-user-colors'></div>
+								</td>
+							</tr>
+						</table>
+						<br>
+						help &amp; keyboard shortcuts
+						<br>
+						<b style='color: #0066CC'>Hello</b><br>
+						<b style='color: #333333'>Hello</b><br>
+						<b style='color: #CC3366'>Hello</b><br>
+						<b style='color: #FF0000'>Hello</b><br>
+						<b style='color: #66CCFF'>Hello</b><br>
+						<b style='color: #FFFF00'>Hello</b><br>
+						<b style='color: #33CC00'>Hello</b><br>
+						<b style='color: #FF9933'>Hello</b><br>
+						<b style='color: #999933'>Hello</b><br>
+						<b style='color: #999999'>Hello</b><br>
+					</div>
+				</div>
+			</div>
+			<div id="box-end"><div id='minimize-right-button' onmousedown='minimize-right-box()'></div></div>
 		</div>
 		<canvas id="canvas" width="800" height="600" onmousedown='canvasMousedown(event)'></canvas>
 		<input id='text-input' onkeypress='textTyping(event)'></input>

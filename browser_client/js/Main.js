@@ -78,7 +78,7 @@ function init(){
 				point.x = x;
 				point.y = y;
 				point.width = 4;
-				point.color = '#000';
+				point.color = '#006699';
 				point.time = new Date().toLocaleString();
 
 				// Draw a round line from the last position to the current one.
@@ -347,4 +347,8 @@ function usehand(){
 	canvas.style.cursor = 'move';
 	$('#hand-button').addClass('selected');
 	if(typemode) removeTextinput();
+}
+
+function selectcolor(color){
+	window.alert(color);
 }
