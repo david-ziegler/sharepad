@@ -1,4 +1,5 @@
 appsocket = () ->
+
   console.log 'connecting to server'
   socket = io.connect('http://localhost:5000')
 
