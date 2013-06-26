@@ -50,7 +50,9 @@ div#left-box-content{
 	left: 305px;
 }
 
-
+table{
+	border-size: 0px;
+}
 
 div.color-button{
 	width: 15px;
@@ -144,26 +146,26 @@ div#minimize-all-button{
 
 }
 
-img.tool-button{
+.tool-button{
 	height: 50px;
 	width: 50px;
 	background-repeat: no-repeat;
 	margin-left: 15px;
 }
 
-img#pen-button{	
+#pen-button{	
 	background: url('../asset/pen.png') no-repeat;
 	margin-left: 70px;
 }
-img#pen-button:HOVER{background: url('../asset/pen-hover.png') no-repeat;}
-img#pen-button:ACTIVE{background: url('../asset/pen-selected.png') no-repeat;}
+#pen-button:HOVER{background: url('../asset/pen-hover.png') no-repeat;}
+#pen-button:ACTIVE{background: url('../asset/pen-selected.png') no-repeat;}
 .selected{background: url('../asset/pen-selected.png') no-repeat;}
-img#eraser-button{	background: url('../asset/eraser.png') no-repeat;}
-img#eraser-button:HOVER{background: url('../asset/eraser-hover.png') no-repeat;}
-img#eraser-button:ACTIVE{background: url('../asset/eraser-selected.png') no-repeat;}
-img#text-button{	background: url('../asset/text.png') no-repeat;}
-img#text-button:HOVER{background: url('../asset/text-hover.png') no-repeat;}
-img#text-button:ACTIVE{background: url('../asset/text-selected.png') no-repeat;}
-img#hand-button{	background: url('../asset/hand.png') no-repeat;}
-img#hand-button:HOVER{background: url('../asset/hand-hover.png') no-repeat;}
-img#hand-button:ACTIVE{background: url('../asset/hand-selected.png') no-repeat;}
+#eraser-button{	background: url('../asset/eraser.png') no-repeat;}
+#eraser-button:HOVER{background: url('../asset/eraser-hover.png') no-repeat;}
+#eraser-button:ACTIVE{background: url('../asset/eraser-selected.png') no-repeat;}
+#text-button{	background: url('../asset/text.png') no-repeat;}
+#text-button:HOVER{background: url('../asset/text-hover.png') no-repeat;}
+#text-button:ACTIVE{background: url('../asset/text-selected.png') no-repeat;}
+#hand-button{	background: url('../asset/hand.png') no-repeat;}
+#hand-button:HOVER{background: url('../asset/hand-hover.png') no-repeat;}
+#hand-button:ACTIVE{background: url('../asset/hand-selected.png') no-repeat;}

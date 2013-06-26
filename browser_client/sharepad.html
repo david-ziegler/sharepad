@@ -14,19 +14,20 @@
 		<div id='left-box-wrapper'>
 			<div id='left-box-content'>
 				<table id='left-box-content'>
+
 					<tr>
-						<td><div class='color-button' id='black' onmousedown='selectcolor('#000000')'></div></td>
-						<td><div class='color-button' id= 'green' onmousedown= 'green()'></div></td>
-						<td><div class='color-button' id='red' onmousedown= 'red()'></div></td>
-						<td><div class='color-button' id='yellow' onmousedown= 'yellow()'></div></td>
-						<td><div class='color-button' id= 'blue' onmousedown= 'blue()'</div></td>
+						<td><div class='color-button' id='black' onmousedown='selectcolor("#333333")'></div></td>
+						<td><div class='color-button' id= 'green' onmousedown= 'selectcolor("#33CC00")'></div></td>
+						<td><div class='color-button' id='red' onmousedown= 'selectcolor("#DD0000")'></div></td>
+						<td><div class='color-button' id='yellow' onmousedown= 'selectcolor("#FFFF00")'></div></td>
+						<td><div class='color-button' id= 'blue' onmousedown= 'selectcolor("#0066CC")'</div></td>
 					</tr>
 					<tr>
-						<td><div class='color-button' id='gray' onmousedown= 'gray()'></div></td>
-						<td><div class='color-button' id= 'brown' onmousedown= 'brown()'></div></td>
-						<td><div class='color-button' id='magenta' onmousedown= 'magenta()'></div> </td>
-						<td><div class='color-button' id='orange' onmousedown= 'orange()'></div></td>
-						<td id='minimize-button'><div class='color-button' id= 'light-blue' onmousedown= 'light-blue()'></div></td>
+						<td><div class='color-button' id='gray' onmousedown= 'selectcolor("#999999")'></div></td>
+						<td><div class='color-button' id= 'brown' onmousedown= 'selectcolor("#999933")'></div></td>
+						<td><div class='color-button' id='magenta' onmousedown= 'selectcolor("#CC3366")'></div> </td>
+						<td><div class='color-button' id='orange' onmousedown= 'selectcolor("#FF9933")'></div></td>
+						<td><div class='color-button' id= 'light-blue' onmousedown= 'selectcolor("#66CCFF")'></div></td>
 					</tr>
 				</table>
 			</div> !G!+
@@ -35,10 +36,10 @@
 			
 			<table>
 			<tr>
-				<td><img class='tool-button' id='pen-button' onmousedown='usepen()' alt='pen-tool'></td>
-				<td><img class='tool-button' id='eraser-button' onmousedown='useeraser()' alt='eraser-tool'></td>
-				<td><img class='tool-button' id='text-button' onmousedown='usetext()' alt='text-tool'></td>
-				<td><img class='tool-button' id='hand-button' onmousedown='usehand()' alt='navigation-tool'></td>
+				<td><div id='pen-button' class='tool-button' onmousedown='usepen()'></td>
+				<td><div id='eraser-button' class='tool-button' onmousedown='useeraser()'></td>
+				<td><div id='text-button' class='tool-button' onmousedown='usetext()'></td>
+				<td><div id='hand-button' class='tool-button' onmousedown='usehand()'></td>
 				<td><div id='minimize-all-button' onmousedown='minimize-all()'></div></td>
 			</tr>
 			</table>
@@ -59,11 +60,14 @@
 							</td>
 						</tr>
 					</table>
-					<div style='text-align: right;'>
-						<table>
+					<div style='text-align: left; color: #000000'>
+						<table >
 							<tr>	
 								<td>	
-									<input id='username' value='your name'></input>
+									<input id='username' value='your name'></input><br>
+									Tobi<br>
+									Giuseppe<br>
+									Mark<br>
 								</td>
 								<td>
 									<div id='this-user-colors'></div>
@@ -71,18 +75,7 @@
 							</tr>
 						</table>
 						<br>
-						help &amp; keyboard shortcuts
-						<br>
-						<b style='color: #0066CC'>Hello</b><br>
-						<b style='color: #333333'>Hello</b><br>
-						<b style='color: #CC3366'>Hello</b><br>
-						<b style='color: #FF0000'>Hello</b><br>
-						<b style='color: #66CCFF'>Hello</b><br>
-						<b style='color: #FFFF00'>Hello</b><br>
-						<b style='color: #33CC00'>Hello</b><br>
-						<b style='color: #FF9933'>Hello</b><br>
-						<b style='color: #999933'>Hello</b><br>
-						<b style='color: #999999'>Hello</b><br>
+						<a href='somewebseite'> help &amp; keyboard shortcuts</a>
 					</div>
 				</div>
 			</div>

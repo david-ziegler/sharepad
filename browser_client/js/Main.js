@@ -1,18 +1,20 @@
-var canvas	  // html-canvas to draw on
-var stage	  // easeljs-concept to draw on
-var wrapper	  // Container, parent of all drawn paths
+var canvas;	  // html-canvas to draw on
+var stage;	  // easeljs-concept to draw on
+var wrapper;	  // Container, parent of all drawn paths
 var width = 3000;  // dimensions of whole document
 var height = 1500;
 
 
-var points	  // array of all points, paths consist of lines connecting points
+var points;	  // array of all points, paths consist of lines connecting points
 var mode = 1; 	  // 1=drawing, 2=erasing, 3=text, 4=navigating
-var display	  // DisplayObject to store the current zoom-state and navigation-position
-var zoom	  // factor to zoom
-var textpos	  // text-mode: position to start writing text
+var display;	  // DisplayObject to store the current zoom-state and navigation-position
+var zoom;	  // factor to zoom
+var textpos;	  // text-mode: position to start writing text
 var typemode = 0; //text-mode: currently writing text
+var brushwidth = 4;
+var brushcolor = '#333333';
 var pathID = -1;  // every path has an ID --> erase whole path
-var lastPoint	  // used to draw paths from the last mouse-point to the current
+var lastPoint;	  // used to draw paths from the last mouse-point to the current
 
 function init(){
 
@@ -47,7 +49,7 @@ function init(){
 	lastPoint = new createjs.Point();
 
 
-
+	
 
 	canvas.addEventListener('mousewheel', mousewheel, false);
 	canvas.addEventListener('DOMMouseScroll', mousewheel, false);
@@ -77,8 +79,8 @@ function init(){
 				point.pathID = pathID;
 				point.x = x;
 				point.y = y;
-				point.width = 4;
-				point.color = '#006699';
+				point.width = brushwidth;
+				point.color = brushcolor;
 				point.time = new Date().toLocaleString();
 
 				// Draw a round line from the last position to the current one.
@@ -90,7 +92,7 @@ function init(){
 
 				// Draw onto the canvas, and then update the container cache.
 				wrapper.addChild(drawing);
-				wrapper.updateCache("source-over");
+				wrapper.updateCache();
 
 				// Update the last position for next move.
 				lastPoint.x = point.x;
@@ -204,7 +206,9 @@ function init(){
 
 }
 
+// zooming not implemented right now:
 function mousewheel(e) {
+	/*
 	wrapper.removeAllChildren();
 	wrapper.updateCache();
 
@@ -258,7 +262,7 @@ function mousewheel(e) {
 		}
 	}
 	wrapper.updateCache();
-	stage.update();
+	stage.update();*/
 }
 	
 
@@ -350,5 +354,5 @@ function usehand(){
 }
 
 function selectcolor(color){
-	window.alert(color);
+	brushcolor = color;
 }
