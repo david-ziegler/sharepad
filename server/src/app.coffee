@@ -5,7 +5,7 @@ app = express()
 server = http.createServer(app)
 fs = require('fs')
 
-static_dir = "https://dl.dropboxusercontent.com/u/391374/sharepad/"
+static_dir = __dirname + "/../pub/"
 
 app.configure( () ->
   app.use(express.favicon())
@@ -15,7 +15,7 @@ io = sio.listen(server)
 
 app.use('/js',express.static("#{static_dir}js"))
 app.use('/css',express.static("#{static_dir}css"))
-app.use('/assets',express.static("#{staic_dir}assets"))
+app.use('/assets',express.static("#{static_dir}assets"))
 
 app.get('/chat.html', (req, res) ->
   fs.readFile("#{static_dir}chat.html", (err, data) ->
