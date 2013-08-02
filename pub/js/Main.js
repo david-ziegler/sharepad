@@ -21,7 +21,7 @@ var temp;
 var i;
 
 function init(){
-    socket = socketFactory(location.host, receiveDrawUpdate, receiveDeleteDrawing, receiveUserJoin)
+    //socket = socketFactory(location.host, receiveDrawUpdate, receiveDeleteDrawing, receiveUserJoin)
 
 	canvas = document.getElementById("canvas");
 	canvas.width = window.innerWidth;
@@ -47,19 +47,25 @@ function init(){
 	brush-size.y = 440;
 	stage.addChild(brush-size);*/
 	$(".noUiSlider").noUiSlider({
-	    range: [1, 100]
-	   ,start: [5]
-	   ,step: 1
+	    range: [20, 100]
+	   ,start: [40, 80]
+	   ,step: 20
 	   ,handles: 1
 	   ,slide: function(){
 	      var values = $(this).val();
-	      
+	      $(".brush-size").text(
+	         values
+	      );
+	   }
+	});
+
+
 		/*var rect = new createjs.Shape();
 		rect.graphics.setStrokeStyle(4).beginStroke('#333').drawRoundRect(1,1, width-2, height-2, 10);
 		brush-size.addChild(rect);
 		brush-size.updateCache();*/
-	   }
-	});
+
+
 
 	// Set up the container. We use it to draw in, and also to get mouse events.
 	wrapper = new createjs.Container();
