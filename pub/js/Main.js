@@ -41,20 +41,25 @@ function init(){
 	$('.tool-button#pen-button').addClass('selected');
 
 
+	/*brush-size = new createjs.Container();
+	brush-size.cache(0,0, 20, 20);
+	brush-size.x = 20;
+	brush-size.y = 440;
+	stage.addChild(brush-size);*/
 	$(".noUiSlider").noUiSlider({
-	    range: [20, 100]
-	   ,start: [40, 80]
-	   ,step: 20
+	    range: [1, 100]
+	   ,start: [5]
+	   ,step: 1
+	   ,handles: 1
 	   ,slide: function(){
 	      var values = $(this).val();
-	      $(".span").text(
-	         values[0] +
-	         " - " +
-	         values[1]
-	      );
+	      
+		/*var rect = new createjs.Shape();
+		rect.graphics.setStrokeStyle(4).beginStroke('#333').drawRoundRect(1,1, width-2, height-2, 10);
+		brush-size.addChild(rect);
+		brush-size.updateCache();*/
 	   }
 	});
-
 
 	// Set up the container. We use it to draw in, and also to get mouse events.
 	wrapper = new createjs.Container();
@@ -64,17 +69,8 @@ function init(){
 	wrapper.y = display.y = -height/2 + canvas.height/2;
 	stage.addChild(wrapper);
 
-	var rect = new createjs.Shape();
-	console.log(wrapper.width);
-	rect.graphics.setStrokeStyle(4).beginStroke('#888').drawRoundRect(1,1, width-2, height-2, 10);
-	wrapper.addChild(rect);
-	wrapper.updateCache();
-
 
 	lastPoint = new createjs.Point();
-
-
-	
 
 	canvas.addEventListener('mousewheel', mousewheel, false);
 	canvas.addEventListener('DOMMouseScroll', mousewheel, false);

@@ -54,14 +54,15 @@ div#color-box{
 
 div.noUiSlider{
 	position:absolute;
-	top: 6px;
-	left: 450px;
+	top: 20px;
+	left: 500px;
+	width: 100px;
 }
 
-span.span{
+div#brush_size{
 	position:absolute;
-	top:50px;
-	left: 450 px;
+	top:20px;
+	left: 440px;
 }
 
 table{
