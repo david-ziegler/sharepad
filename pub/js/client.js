@@ -12,7 +12,7 @@
     drawCallback = deleteCallback = userJoinCallback = null;
 
     function Appsocket(host, draw, del, userJoin) {
-      console.log('connecting to socket server #{host}');
+      console.log("connecting to socket server " + host);
       socket = io.connect(host);
       drawCallback = draw;
       deleteCallback = del;
