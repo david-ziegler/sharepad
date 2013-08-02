@@ -52,10 +52,16 @@ div#color-box{
 	left: 290px;
 }
 
-div.slider{
+div.noUISlider{
 	position:absolute;
 	top: 6px;
 	left: 450px;
+}
+
+span.span{
+	position:absolute;
+	top:50px;
+	left: 450 px;
 }
 
 table{
