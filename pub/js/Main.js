@@ -41,20 +41,6 @@ function init(){
 	$('.tool-button#pen-button').addClass('selected');
 
 
-	$(".slider").noUiSlider({
-	    range: [20, 100]
-	   ,start: [40, 80]
-	   ,step: 20
-	   ,slide: function(){
-	      var values = $(this).val();
-	      $("span").text(
-	         values[0] +
-	         " - " +
-	         values[1]
-	      );
-	   }
-	});
-
 
 
 	// Set up the container. We use it to draw in, and also to get mouse events.
