@@ -5,7 +5,7 @@ class Appsocket
   drawCallback = deleteCallback = userJoinCallback = null
 
   constructor: (host, draw, del, userJoin) ->
-    console.log 'connecting to socket server #{host}'
+    console.log "connecting to socket server #{host}"
     socket = io.connect(host)
     drawCallback = draw
     deleteCallback = del
@@ -32,12 +32,12 @@ class Appsocket
     socket.on 'userDisconnect', (userID) ->
       console.log 'user #{userID} disconnected'
 
-  sendDrawing = (drawObject) ->
+  @sendDrawing: (drawObject) ->
     console.log 'send draw update'
     socket.emit 'drawUpdate', drawObject
     buildChecksum drawObject
 
-  deleteDrawing = (md5) ->
+  @deleteDrawing: (md5) ->
     console.log 'send delete drawing'
     socket.emit 'deleteDrawing', md5
 

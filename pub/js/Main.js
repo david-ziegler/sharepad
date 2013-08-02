@@ -5,6 +5,8 @@ var width = 3000;  // dimensions of whole document
 var height = 1500;
 
 
+var socket = null; //connection layer to server
+
 var points;	  // array of all points, paths consist of lines connecting points
 var mode = 1; 	  // 1=drawing, 2=erasing, 3=text, 4=navigating
 var display;	  // DisplayObject to store the current zoom-state and navigation-position
@@ -19,6 +21,7 @@ var temp;
 var i;
 
 function init(){
+    socket = socketFactory(location.host, receiveDrawUpdate, receiveDeleteDrawing, receiveUserJoin)
 
 	canvas = document.getElementById("canvas");
 	canvas.width = window.innerWidth;
@@ -122,8 +125,13 @@ function init(){
 			stage.addEventListener("stagemouseup", function(){
 				stage.removeAllEventListeners("stagemousemove");
 
-				// mark end of line in points-array:
-				points.push(null);
+                if(!!socket) {
+                    drawObject = {};
+                    drawObject.thickness = brushwidth;
+                    drawObject.color = brushcolor;
+                    drawObject.points = points;
+                    socket.sendDrawing(drawObject); //TODO this method returns md5. Save that value in combination with internal id
+                }
 			});
 		}
 		else if(mode == 2){	// ERASING-MODE
@@ -355,4 +363,21 @@ function selectcolor(hex, color){
 	console.log(color);
 	$('.color-button.selected').removeClass('selected');
 	$('#' + color).addClass('selected');	
+}
+
+function receiveDrawUpdate(drawObject) {
+    //structure of drawObject:
+    //drawObject:
+    //  color as hex
+    //  thickness as int
+    //  points as list of (x, y)
+    //  md5 as string
+}
+
+function receiveDeleteDrawing(md5) {
+    //remove the drawing with the given md5
+}
+
+function receiveUserJoin(userID, userName) {
+    //user with given id has a new name
 }
