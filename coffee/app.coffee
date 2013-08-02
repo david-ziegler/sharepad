@@ -17,8 +17,9 @@ app.use('/js',express.static("#{static_dir}js"))
 app.use('/css',express.static("#{static_dir}css"))
 app.use('/assets',express.static("#{static_dir}assets"))
 
-app.get('/chat.html', (req, res) ->
-  fs.readFile("#{static_dir}chat.html", (err, data) ->
+#todo load different sharepads
+app.get('/sharepad', (req, res) ->
+  fs.readFile("#{static_dir}sharepad.html", (err, data) ->
     return res.end(404) if err?
     res.writeHead(200, {'Content-Type': 'text/html'})
     res.end(data)
@@ -27,9 +28,10 @@ app.get('/chat.html', (req, res) ->
 
 #logged in users
 usernames = {}
-
+nextUserID = 0
 #accept incoming sockets
 io.sockets.on 'connection', (socket) ->
+  socket.userid = nextUserID++
 
   #broadcast chats to all users
   socket.on 'chat', (data) ->
@@ -37,25 +39,22 @@ io.sockets.on 'connection', (socket) ->
     io.sockets.emit 'updatechat', socket.username, data
 
   #accept incoming user messages
-  socket.on 'adduser', (username) ->
+  socket.on 'join', (username) ->
     console.log "new user #{username}"
     socket.username = username
-    usernames[username] = username
-
-    #echo connecting user
-    socket.emit 'updatechat', 'SERVER', 'you have connected'
 
     #message all users and send user-update
-    console.log("The useername is " + username)
-    socket.broadcast.emit 'updatechat', 'SERVER', "#{username} has connected"
-    io.sockets.emit 'updateusers', usernames
+    socket.broadcast.emit 'newUser', username, 0
 
   socket.on 'disconnect', () ->
     console.log "user disconnect"
-    delete usernames[socket.username]
-    io.sockets.emit 'updateusers', usernames
-    socket.broadcast.emit 'updatechat', 'SERVER', "#{socket.username}
-      has disconnected"
+    socket.broadcast.emit 'userDisconnect', socket.userid
+
+  socket.on 'drawUpdate', (drawObject) ->
+    socket.broadcast.emit 'receiveDrawing', socket.userid, drawObject
+
+  socket.on 'deleteDrawing', (md5) ->
+    socket.broadcast.emit 'deleteDrawing', md5
 
 #Heroku
 port = process.env.PORT || 3000
