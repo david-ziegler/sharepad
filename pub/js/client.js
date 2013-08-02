@@ -5,7 +5,7 @@
   root = typeof exports !== "undefined" && exports !== null ? exports : this;
 
   Appsocket = (function() {
-    var deleteCallback, deleteDrawing, drawCallback, renameUser, sendDrawing, socket, userJoinCallback;
+    var deleteCallback, drawCallback, renameUser, socket, userJoinCallback;
 
     socket = null;
 
@@ -39,13 +39,13 @@
       });
     }
 
-    sendDrawing = function(drawObject) {
+    Appsocket.sendDrawing = function(drawObject) {
       console.log('send draw update');
       socket.emit('drawUpdate', drawObject);
       return buildChecksum(drawObject);
     };
 
-    deleteDrawing = function(md5) {
+    Appsocket.deleteDrawing = function(md5) {
       console.log('send delete drawing');
       return socket.emit('deleteDrawing', md5);
     };

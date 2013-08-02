@@ -32,12 +32,12 @@ class Appsocket
     socket.on 'userDisconnect', (userID) ->
       console.log 'user #{userID} disconnected'
 
-  sendDrawing = (drawObject) ->
+  @sendDrawing: (drawObject) ->
     console.log 'send draw update'
     socket.emit 'drawUpdate', drawObject
     buildChecksum drawObject
 
-  deleteDrawing = (md5) ->
+  @deleteDrawing: (md5) ->
     console.log 'send delete drawing'
     socket.emit 'deleteDrawing', md5
 
