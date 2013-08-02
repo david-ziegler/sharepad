@@ -5,7 +5,7 @@
 <script src="/js/client.js"></script>
 <script type="application/javascript">
     $(document).ready(function() {
-        App.socket.connect(location.host);
+        socket = socketFactory(location.host)
     });
 </script>
 
