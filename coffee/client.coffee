@@ -34,7 +34,7 @@ class Appsocket
 
   sendDrawing = (drawObject) ->
     console.log 'send draw update'
-    socket.emit 'drawUpdate' drawObject
+    socket.emit 'drawUpdate', drawObject
     buildChecksum drawObject
 
   deleteDrawing = (md5) ->

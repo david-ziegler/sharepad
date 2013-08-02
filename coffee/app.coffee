@@ -10,6 +10,9 @@ static_dir = __dirname + "/../pub/"
 app.configure( () ->
   app.use(express.favicon())
   app.use(express.logger('dev'))
+  app.use("/css", express.static(static_dir + "css"))
+  app.use("/js", express.static(static_dir + "js"))
+  app.use("/asset", express.static(static_dir + "asset"))
 )
 io = sio.listen(server)
 
@@ -55,6 +58,9 @@ io.sockets.on 'connection', (socket) ->
 
   socket.on 'deleteDrawing', (md5) ->
     socket.broadcast.emit 'deleteDrawing', md5
+
+  socket.on 'renameUser', (newName) ->
+    socket.username = newName
 
 #Heroku
 port = process.env.PORT || 3000
