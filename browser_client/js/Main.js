@@ -15,6 +15,8 @@ var brushwidth = 4;
 var brushcolor = '#333333';
 var pathID = -1;  // every path has an ID --> erase whole path
 var lastPoint;	  // used to draw paths from the last mouse-point to the current
+var temp;
+var i;
 
 function init(){
 
@@ -30,6 +32,27 @@ function init(){
 	
 	points = new Array();
 	textpos = new createjs.Point();
+
+	// default brush settings for drawing:
+	$('.color-button#black').addClass('selected');
+	$('.tool-button#pen-button').addClass('selected');
+
+
+	$(".slider").noUiSlider({
+	    range: [20, 100]
+	   ,start: [40, 80]
+	   ,step: 20
+	   ,slide: function(){
+	      var values = $(this).val();
+	      $("span").text(
+	         values[0] +
+	         " - " +
+	         values[1]
+	      );
+	   }
+	});
+
+
 
 	// Set up the container. We use it to draw in, and also to get mouse events.
 	wrapper = new createjs.Container();
@@ -113,41 +136,19 @@ function init(){
 			console.log(foundObj);
 			if(foundObj != null){
 				console.log(foundObj.name);
-				var deleted = new Array();
-				for(i in points){
-					var point = points[i];
-					if(point != null && point.pathID == foundObj.name){
-						// lazy-delete
-						console.log('delete: ' + point.x + ', ' + point.y);
-
-						// save deletePoints to delete them on the canvas
-						deleted.push(point);
-					}
+				//remove deleted path from wrapper:
+				temp = wrapper.getNumChildren();
+				i = 1;
+				while(i < temp){
+					if(wrapper.getChildAt(i).name == foundObj.name){
+					      	wrapper.removeChildAt(i);
+						temp--;
+					}else{
+						i++;
+					}						
 				}
-
-				// remove deleted path from canvas:
-				lastPoint.x = deleted[0].x;
-				lastPoint.y = deleted[0].y;
-				for(i in deleted){
-					var point = deleted[i];
-
-					point.color = '#FFF';
-
-					// Draw a round line from the last position to the current one.
-					point.x;
-					point.y;
-					var drawing = new createjs.Shape();
-					drawing.name = pathID.toString();
-					drawing.graphics.ss(point.width + 2, "round").s(point.color);
-					drawing.graphics.mt(lastPoint.x, lastPoint.y);        
-					drawing.graphics.lt(point.x, point.y);
-
-					wrapper.addChild(drawing);
-
-					lastPoint.x = point.x;
-					lastPoint.y = point.y;
-				}
-				wrapper.updateCache('source-over');
+				//console.log(wrapper.getNumChildren());
+				wrapper.updateCache();
 			}
 		}
 		else if(mode == 3){	// TEXT-MODE	
@@ -161,6 +162,7 @@ function init(){
 			textinput.style.top = textpos.y + 'px';
 			textinput.focus();
 			typemode = 1;	
+			pathID++;
 
 		} else if(mode == 4){	// NAVIGATION-MODE
 			var offset={x:wrapper.x - e.stageX,y:wrapper.y - e.stageY};
@@ -270,32 +272,27 @@ function mousewheel(e) {
 function keypress(e){
 	if(!typemode){
 		switch(e.keyCode){
-		case 120:
+		case 120:	// x
 			usepen();
 			break;
-		case 99:
+		case 99:	// c
 			useeraser();
 			break;
-		case 118:
+		case 118:	// v
 			usetext();
 			break;
-		case 98:
+		case 98:	// b
 			console.log('x, y, regX, regY, scaleX, scaleY');
 			console.log('display: ' + display.x + ', ' + display.y + ', ' + display.regX + ', ' + display.regY + ', ' + display.scaleX + ', ' + display.scaleY);
 			console.log('stage: ' + stage.x + ', ' + stage.y + ', ' + stage.regX + ', ' + stage.regY + ', ' + stage.zoom);
 			console.log('wrapper: ' +  wrapper.x + ', ' + wrapper.y + ', ' + wrapper.regX + ', ' + wrapper.regY + ', ' + wrapper.scaleX + ', ' + wrapper.scaleY);
 		
-			
 			usehand();
 			break;
 		}
 
-	console.log('mode: ' + mode);
+			
 	}
-}
-
-function clicked(){
-	window.alert('clicked button');
 }
 
 function canvasMousedown(e){
@@ -316,6 +313,7 @@ function finishTextinput(){
 	text.x = textpos.x - display.x;
 	text.y = textpos.y - display.y + 15;
 	text.textBaseline = "alphabetic";
+	text.name = pathID.toString();
 
 	wrapper.addChild(text);
 	wrapper.updateCache();
@@ -329,6 +327,7 @@ function removeTextinput(){
 function usepen(){
 	mode = 1;
 	canvas.style.cursor = 'crosshair';
+	$('.tool-button.selected').removeClass('selected');
 	$('#pen-button').addClass('selected');
 	if(typemode) removeTextinput();
 }
@@ -336,6 +335,7 @@ function usepen(){
 function useeraser(){
 	mode = 2;
 	canvas.style.cursor = 'crosshair';
+	$('.tool-button.selected').removeClass('selected');
 	$('#eraser-button').addClass('selected');
 	if(typemode) removeTextinput();
 }
@@ -343,16 +343,21 @@ function useeraser(){
 function usetext(){
 	mode = 3;
 	canvas.style.cursor = 'text';
+	$('.tool-button.selected').removeClass('selected');
 	$('#text-button').addClass('selected');
 }
 
 function usehand(){
 	mode = 4;
 	canvas.style.cursor = 'move';
+	$('.tool-button.selected').removeClass('selected');
 	$('#hand-button').addClass('selected');
 	if(typemode) removeTextinput();
 }
 
-function selectcolor(color){
-	brushcolor = color;
+function selectcolor(hex, color){
+	brushcolor = hex;
+	console.log(color);
+	$('.color-button.selected').removeClass('selected');
+	$('#' + color).addClass('selected');	
 }

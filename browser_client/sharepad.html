@@ -6,31 +6,37 @@
 		<link rel='stylesheet' type='text/css' href='css/style.css'>
 		<script src="http://code.createjs.com/createjs-2013.05.14.min.js"></script>
 		<script type="text/javascript" language="Javascript" 
-	src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.4.1.min.js"></script> 
+		src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.4.1.min.js"></script> 
 		<script type='text/javascript' src="js/Main.js"></script>
+		<script type="text/javascript" language="Javascript" 
+	src="js/jquery.nouislider.js"></script> 
+		<link rel='stylesheet' type='text/css' href='js/nouislider.fox.css'>
 	</head>
 
 	<body onload='init()' onKeyPress='keypress(event)'>
 		<div id='left-box-wrapper'>
-			<div id='left-box-content'>
+			<div id='color-box'>
 				<table id='left-box-content'>
 
 					<tr>
-						<td><div class='color-button' id='black' onmousedown='selectcolor("#333333")'></div></td>
-						<td><div class='color-button' id= 'green' onmousedown= 'selectcolor("#33CC00")'></div></td>
-						<td><div class='color-button' id='red' onmousedown= 'selectcolor("#DD0000")'></div></td>
-						<td><div class='color-button' id='yellow' onmousedown= 'selectcolor("#FFFF00")'></div></td>
-						<td><div class='color-button' id= 'blue' onmousedown= 'selectcolor("#0066CC")'</div></td>
+						<td><div class='color-button' id='black' onmousedown='selectcolor("#333333", "black")'></div></td>
+						<td><div class='color-button' id= 'green' onmousedown= 'selectcolor("#33CC00", "green")'></div></td>
+						<td><div class='color-button' id='red' onmousedown= 'selectcolor("#DD0000", "red")'></div></td>
+						<td><div class='color-button' id='yellow' onmousedown= 'selectcolor("#FFFF00", "yellow")'></div></td>
+						<td><div class='color-button' id= 'blue' onmousedown= 'selectcolor("#0066CC", "blue")'</div></td>
 					</tr>
 					<tr>
-						<td><div class='color-button' id='gray' onmousedown= 'selectcolor("#999999")'></div></td>
-						<td><div class='color-button' id= 'brown' onmousedown= 'selectcolor("#999933")'></div></td>
-						<td><div class='color-button' id='magenta' onmousedown= 'selectcolor("#CC3366")'></div> </td>
-						<td><div class='color-button' id='orange' onmousedown= 'selectcolor("#FF9933")'></div></td>
-						<td><div class='color-button' id= 'light-blue' onmousedown= 'selectcolor("#66CCFF")'></div></td>
+						<td><div class='color-button' id='gray' onmousedown= 'selectcolor("#999999", "gray")'></div></td>
+						<td><div class='color-button' id= 'brown' onmousedown= 'selectcolor("#999933", "brown")'></div></td>
+						<td><div class='color-button' id='magenta' onmousedown= 'selectcolor("#CC3366", "magenta")'></div> </td>
+						<td><div class='color-button' id='orange' onmousedown= 'selectcolor("#FF9933", "orange")'></div></td>
+						<td><div class='color-button' id= 'light-blue' onmousedown= 'selectcolor("#66CCFF", "light-blue")'></div></td>
 					</tr>
 				</table>
-			</div> !G!+
+			</div>
+			<div class='slider'>
+				HalloHallo
+			</div>
 		</div>
 		<div id="toolbar">
 			
@@ -64,10 +70,7 @@
 						<table >
 							<tr>	
 								<td>	
-									<input id='username' value='your name'></input><br>
-									Tobi<br>
-									Giuseppe<br>
-									Mark<br>
+									<input id='name_user' value='your name' onclick='this.select()'></input><br>
 								</td>
 								<td>
 									<div id='this-user-colors'></div>
@@ -75,7 +78,7 @@
 							</tr>
 						</table>
 						<br>
-						<a href='somewebseite'> help &amp; keyboard shortcuts</a>
+						<!--<a href='somewebseite'> help &amp; keyboard shortcuts</a>-->
 					</div>
 				</div>
 			</div>

@@ -39,15 +39,23 @@ div#left-box-wrapper{
 	top: -5px;
 	left: -280px;
 	background-image: url('../asset/left-box.png');
-	height: 60px;
-	width: 594px;
+	height: 68px;
+	width: 650px;
 	z-index: 1;
+	background-size: cover;
+	background-repeat: no-repeat;
 }
 
-div#left-box-content{
+div#color-box{
 	position: absolute;
-	top: 7px;
-	left: 305px;
+	top: 6px;
+	left: 290px;
+}
+
+div.slider{
+	position:absolute;
+	top: 6px;
+	left: 450px;
 }
 
 table{
@@ -55,31 +63,31 @@ table{
 }
 
 div.color-button{
-	width: 15px;
-       	height:	15px;
+	width: 19px;
+       	height:	19px;
 	background-repeat: no-repeat;
 }
 
 div#black{background-image: url('../asset/colors/black.png');}
-div#black:ACTIVE { background-image: url('..asset/colors/black.png'), url('..asset/colors/fill-blue.png');}
+div#black.selected{ background-image: url('../asset/colors/black.png'), url('../asset/colors/selected.png');}
 div#gray{ background-image: url('../asset/colors/gray.png');}
-div#gray:ACTIVE{ background-image: url('..asset/colors/gray.png'), url('..asset/colors/fill-blue.png');}
+div#gray.selected{ background-image: url('../asset/colors/gray.png'), url('../asset/colors/selected.png');}
 div#brown{ background-image: url('../asset/colors/brown.png');}
-div#brown:ACTIVE{ background-image: url('..asset/colors/brown.png'), url('..asset/colors/fill-blue.png');}
+div#brown.selected{ background-image: url('../asset/colors/brown.png'), url('../asset/colors/selected.png');}
 div#orange{ background-image: url('../asset/colors/orange.png');}
-div#orange:ACTIVE{ background-image: url('..asset/colors/orange.png'), url('..asset/colors/fill-blue.png');}
+div#orange.selected{ background-image: url('../asset/colors/orange.png'), url('../asset/colors/selected.png');}
 div#red{ background-image: url('../asset/colors/red.png');}
-div#red:ACTIVE{ background-image: url('..asset/colors/red.png'), url('..asset/colors/fill-blue.png');}
+div#red.selected{ background-image: url('../asset/colors/red.png'), url('../asset/colors/selected.png');}
 div#yellow{ background-image: url('../asset/colors/yellow.png');}
-div#yellow:ACTIVE{ background-image: url('..asset/colors/yellow.png'), url('..asset/colors/fill-blue.png');}
+div#yellow.selected{ background-image: url('../asset/colors/yellow.png'), url('../asset/colors/selected.png');}
 div#green{ background-image: url('../asset/colors/green.png');}
-div#green:ACTIVE{ background-image: url('..asset/colors/green.png'), url('..asset/colors/fill-blue.png');}
+div#green.selected{ background-image: url('../asset/colors/green.png'), url('../asset/colors/selected.png');}
 div#blue{ background-image: url('../asset/colors/blue.png');}
-div#blue:ACTIVE{ background-image: url('..asset/colors/blue.png'), url('..asset/colors/fill-blue.png');}
+div#blue.selected{ background-image: url('../asset/colors/blue.png'), url('../asset/colors/selected.png');}
 div#light-blue{ background-image: url('../asset/colors/light-blue.png');}
-div#light-blue:ACTIVE{ background-image: url('..asset/colors/light-blue.png'), url('..asset/colors/fill-blue.png');}
+div#light-blue.selected{ background-image: url('../asset/colors/light-blue.png'), url('../asset/colors/selected.png');}
 div#magenta{ background-image: url('../asset/colors/magenta.png');}
-div#magenta:ACTIVE{ background-image: url('..asset/colors/magenta.png'), url('..asset/colors/fill-blue.png');}
+div#magenta.selected{ background-image: url('../asset/colors/magenta.png'), url('../asset/colors/selected.png');}
 
 div#right-box{
 	color:#AAAAAA;
@@ -158,14 +166,14 @@ div#minimize-all-button{
 	margin-left: 70px;
 }
 #pen-button:HOVER{background: url('../asset/pen-hover.png') no-repeat;}
-#pen-button:ACTIVE{background: url('../asset/pen-selected.png') no-repeat;}
+#pen-button.selected{background: url('../asset/pen-selected.png') no-repeat;}
 .selected{background: url('../asset/pen-selected.png') no-repeat;}
 #eraser-button{	background: url('../asset/eraser.png') no-repeat;}
 #eraser-button:HOVER{background: url('../asset/eraser-hover.png') no-repeat;}
-#eraser-button:ACTIVE{background: url('../asset/eraser-selected.png') no-repeat;}
+#eraser-button.selected{background: url('../asset/eraser-selected.png') no-repeat;}
 #text-button{	background: url('../asset/text.png') no-repeat;}
 #text-button:HOVER{background: url('../asset/text-hover.png') no-repeat;}
-#text-button:ACTIVE{background: url('../asset/text-selected.png') no-repeat;}
+#text-button.selected{background: url('../asset/text-selected.png') no-repeat;}
 #hand-button{	background: url('../asset/hand.png') no-repeat;}
 #hand-button:HOVER{background: url('../asset/hand-hover.png') no-repeat;}
-#hand-button:ACTIVE{background: url('../asset/hand-selected.png') no-repeat;}
+#hand-button.selected{background: url('../asset/hand-selected.png') no-repeat;}
