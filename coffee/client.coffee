@@ -5,7 +5,7 @@ class Appsocket
   drawCallback = deleteCallback = userJoinCallback = null
 
   constructor: (host, draw, del, userJoin) ->
-    console.log 'connecting to socket server #{host}'
+    console.log "connecting to socket server #{host}"
     socket = io.connect(host)
     drawCallback = draw
     deleteCallback = del
