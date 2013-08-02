@@ -3,7 +3,6 @@
     "description": "share drawings in realtime",
     "version": "0.0.1",
     "dependencies": {
-        "coffee-script": "1.6.x",
         "express": "3.x",
         "socket.io": "0.9.14"
     },

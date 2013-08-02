@@ -1,6 +1,8 @@
-appsocket = () ->
+root = exports ? this
 
-  connect (host) ->
+class Appsocket
+  socket = null
+  constructor: (host) ->
     console.log 'connecting to server'
     socket = io.connect(host)
 
@@ -28,5 +30,6 @@ appsocket = () ->
       $('#data').keypress (e) ->
         $('#datasend').focus().click() if e.which == 13
 
-@App or= {}
-@App.socket = appsocket()
+unless root.socketFactory
+    root.socketFactory = (host) ->
+      new Appsocket(host)
