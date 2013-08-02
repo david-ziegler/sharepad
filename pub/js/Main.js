@@ -41,29 +41,25 @@ function init(){
 	$('.tool-button#pen-button').addClass('selected');
 
 
-	/*brush-size = new createjs.Container();
-	brush-size.cache(0,0, 20, 20);
-	brush-size.x = 20;
-	brush-size.y = 440;
-	stage.addChild(brush-size);*/
+	brush_size = new createjs.Container();
+	brush_size.cache(0,0, 200, 200);
+	brush_size.x = 20;
+	brush_size.y = 440;
+	stage.addChild(brush_size);
 	$(".noUiSlider").noUiSlider({
-	    range: [20, 100]
-	   ,start: [40, 80]
-	   ,step: 20
+	    range: [1, 100]
+	   ,start: [40]
+	   ,step: 1
 	   ,handles: 1
 	   ,slide: function(){
-	      var values = $(this).val();
-	      $(".brush-size").text(
-	         values
-	      );
+	      	var values = $(this).val();
+		var rect = new createjs.Shape();
+		rect.graphics.setStrokeStyle(4).beginStroke('#555').drawRoundRect(1,1, 50, 50, 10);
+		brush_size.addChild(rect);
+		brush_size.updateCache();		
 	   }
 	});
 
-
-		/*var rect = new createjs.Shape();
-		rect.graphics.setStrokeStyle(4).beginStroke('#333').drawRoundRect(1,1, width-2, height-2, 10);
-		brush-size.addChild(rect);
-		brush-size.updateCache();*/
 
 
 
@@ -378,6 +374,34 @@ function receiveDrawUpdate(drawObject) {
     //  thickness as int
     //  points as list of (x, y)
     //  md5 as string
+ 
+	pathID++;
+	firstPoint = 0;
+	lastPoint.x = x;
+	lastPoint.y = y;
+	drawing.graphics.ss(point.width, "round").s(point.color);
+
+	for(point in drawObject.points){
+		var drawpoint = {};
+		drawpoint.pathID = pathID;
+		drawpoint.x = point.x;
+		drawpoint.y = point.y;
+	
+		// Draw a round line from the last position to the current one.
+		var drawing = new createjs.Shape();
+		drawing.name = pathID.toString();
+			
+		drawing.graphics.mt(lastPoint.x, lastPoint.y);        
+		drawing.graphics.lt(point.x, point.y);
+
+		// Draw onto the canvas, and then update the container cache.
+		wrapper.addChild(drawing);
+		wrapper.updateCache();
+
+		// Update the last position for next move.
+		lastPoint.x = point.x;
+		lastPoint.y = point.y;
+	};
 }
 
 function receiveDeleteDrawing(md5) {
